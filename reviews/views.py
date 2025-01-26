@@ -1,25 +1,22 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from .forms import ReviewForm
-from .models import Review
+from django.views import View
+from django.views.generic import TemplateView
 
 
-# Create your views here.
-"""Will validate input and make sure its not empty
-    and make sure form is valid as a whole, if data is valid it will make another field
-    with the valid data"""
+class ReviewView(View):
+    def get(self, request):
+        form = ReviewForm()
+        return render(request, "reviews/review.html", {"form": form})
 
-
-def review(request):
-    if request.method == "POST":
+    def post(self, request):
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = Review.objects.create(rating = form.cleaned_data['rating'], username = form.cleaned_data['username'],
-            review_text = form.cleaned_data['review_text'])
+            form.save()
             return HttpResponseRedirect("/thank-you")
-    else:
-        form = ReviewForm()
-    return render(request, "reviews/review.html", {"form": form})
+
+        return render(request, "reviews/review.html", {"form": form})
 
 
-def thank_you(request):
-    return render(request, "reviews/thank_you.html")
+class ThankYouView(TemplateView):
+    template_name = "reviews/thank_you.html"

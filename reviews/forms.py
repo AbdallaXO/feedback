@@ -1,16 +1,24 @@
 from django import forms
+from .models import Review
 
-
-class ReviewForm(forms.Form):
-    username = forms.CharField(
-        label="Your Name",
-        max_length=20,
-        error_messages={
-            "required": "type ur name bitch",
-            "max_length": "Maximum 20 Characters",
-        },
-    )
-    review_text = forms.CharField(
-        label="Your Feedback", widget=forms.Textarea, max_length=200
-    )
-    rating = forms.IntegerField(label="Your Rating", min_value=1, max_value=5)
+class ReviewForm(forms.ModelForm):
+    class Meta:  
+        model = Review
+        fields = '__all__' 
+        labels = {
+            'username':"Your Name",
+            'rating':'Your Rating (1-5)',
+            'review_text':'Your Feedback',
+        }
+        error_messages = {
+            'username':{
+                'required':'Please Enter your username',
+                'max_length':'Name cannot exceed 20 characters'
+            },
+            'rating':{
+                'required':'Please Enter A Rating From 1-5',
+            },
+            "review_text":{
+                "required": "Please enter your feedback to submit the review",
+            }
+        }            # includes all fields except this if that was a field exlude = ['owner_comment'] 
