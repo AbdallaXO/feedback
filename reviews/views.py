@@ -13,8 +13,8 @@ def review(request):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            entry = Review.objects.create(rating = request.POST['rating'], username = request.POST['username'],
-            review_text = request.POST['review_text'])
+            review = Review.objects.create(rating = form.cleaned_data['rating'], username = form.cleaned_data['username'],
+            review_text = form.cleaned_data['review_text'])
             return HttpResponseRedirect("/thank-you")
     else:
         form = ReviewForm()
