@@ -8,10 +8,12 @@ from django.urls import reverse_lazy
 from .forms import ReviewForm
 from .models import Review
 
+
 class UpdateForm(UpdateView):
     model = Review
     fields = ["rating"]
-    success_url = reverse_lazy('thank-you')
+    success_url = reverse_lazy("thank-you")
+
 
 class ReviewView(CreateView):
     model = Review
