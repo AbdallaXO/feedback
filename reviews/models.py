@@ -12,7 +12,7 @@ class Review(models.Model):
     review_text = models.TextField()
 
     def __str__(self):
-        return f"{self.rating}/5 Review by {self.username}"
+        return f"Review by {self.username}: {self.rating}/5 - {self.review_text[:50]}..."
 
     class Meta:
         verbose_name_plural = "Review's"
